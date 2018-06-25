@@ -57,6 +57,25 @@ public class ManyToOneExample {
 
             entityManager.getTransaction().commit();
 
+            entityManager.getTransaction().begin();
+            /*Employee employee2 = entityManager.find(Employee.class, employee.getOid());
+            entityManager.remove(employee2);*/
+            entityManager.createQuery("DELETE FROM Employee E").executeUpdate();
+            entityManager.createQuery("DELETE FROM Department D").executeUpdate();
+
+            /*Department department2 = entityManager.find(Department.class, department.getOid());
+            entityManager.remove(department2);*/
+            entityManager.getTransaction().commit();
+
+            entityManager.getTransaction().begin();
+            entityManager.flush();
+            Employee employee3 = entityManager.find(Employee.class, employee.getOid());
+            if (employee3 == null) {
+                System.out.println("Employee successfully deleted...");
+            }
+            entityManager.getTransaction().commit();
+
+
         } catch (Exception e) {
             e.printStackTrace();
             if (entityManager != null) {
